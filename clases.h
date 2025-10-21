@@ -68,6 +68,10 @@ class Persona{
         string nombre;
     public:
         Persona();
+        void setDni(int);
+        void setNombre(string);
+        int getDni();
+        string getNombre();
         ~Persona();
 };
 

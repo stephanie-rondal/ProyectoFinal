@@ -2,13 +2,8 @@
 #include <iostream>
 using namespace std;
 
+//-----------Sistema
 Sistema::Sistema(){
-    for (int i = 0; i < 20; i++)
-    {
-        autores[i] = '\0';
-        usuarios[i] = '\0';
-        noticias[i] = '\0';
-    }
     
 }
 void Sistema::registrar(){
@@ -18,6 +13,9 @@ void Sistema::registrar(){
 void Sistema::cargarUsuario(){
 
 }
+
+Sistema::~Sistema(){}
+
 
 //----------- Noticia
 Noticia::Noticia(){}
@@ -56,7 +54,59 @@ int Noticia::getAnio(){
 
 Noticia::~Noticia(){}
 
-///--------Comentario
-Comentario::Comentario(){
 
+///--------Comentario
+Comentario::Comentario(){}
+
+void Comentario::setNumero(int n){
+    numero = n;
 }
+void Comentario::setTexto(string t){
+    texto = t;
+}
+
+int Comentario::getNumero(){
+    return numero;
+}
+string Comentario::getTexto(){
+    return texto;
+}
+
+Comentario::~Comentario(){}
+
+
+//-------Medio
+Medio::Medio(){}
+Medio::~Medio(){}
+
+
+//------Persona
+Persona::Persona(){}
+
+void Persona::setNombre(string n){
+    nombre = n;
+}
+void Persona::setDni(int d){
+    dni = d;
+}
+
+string Persona::getNombre(){
+    return nombre;
+}
+int Persona::getDni(){
+    return dni;
+}
+
+Persona::~Persona(){}
+
+
+//-------Autor
+Autor::Autor(){}
+
+Autor::~Autor(){}
+
+
+//--------Usuario
+Usuario::Usuario(){}
+
+Usuario::~Usuario(){}

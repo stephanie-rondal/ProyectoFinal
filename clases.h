@@ -32,10 +32,10 @@ class Noticia{
         void setMes(int);
         void setAnio(int);
         string getTitulo();
-        string getDetlle();
+        string getDetalle();
         int getDia();
         int getMes();
-        int getAmio();
+        int getAnio();
         ~Noticia();
 };
 

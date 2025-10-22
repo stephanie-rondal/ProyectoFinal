@@ -1,4 +1,4 @@
-#include "clases.h"
+#include "clases1.h"
 
 Sistema::Sistema(){
     contAutor=0;
@@ -7,6 +7,97 @@ Sistema::Sistema(){
 
 
 }
+
+Persona::Persona(){}
+
+Persona::Persona(string _nombre, int _dni){
+    nombre=_nombre;
+    dni=_dni;
+}
+
+void Persona::setNombre(string n){
+    nombre = n;
+}
+void Persona::setDni(int d){
+    dni = d;
+}
+
+string Persona::getNombre(){
+    return nombre;
+}
+int Persona::getDni(){
+    return dni;
+}
+
+Autor::Autor(){
+    nombre = " ";
+    dni=0;
+}
+Autor::Autor(string n, int doc, string m):Persona(n, doc){
+    nombre=n;
+    dni=doc;
+    medio=m;
+}
+
+Usuario::Usuario(string _nombre, int _dni, int _edad):Persona(_nombre,_dni){
+    edad=_edad;
+}
+
+Comentario::Comentario(){}
+
+void Comentario::setNumero(int n){
+    numero = n;
+}
+void Comentario::setTexto(string t){
+    texto = t;
+}
+
+int Comentario::getNumero(){
+    return numero;
+}
+string Comentario::getTexto(){
+    return texto;
+}
+
+Comentario::~Comentario(){}
+
+Noticia::Noticia(){}
+
+void Noticia::setTitulo(string t){
+    titulo = t;
+}
+void Noticia::setDetalle(string d){
+    detalle = d;
+}
+void Noticia::setDia(int d){
+    dia = d;
+}
+void Noticia::setMes(int m){
+    mes = m;
+}
+void Noticia::setAnio(int a){
+    año = a;
+}
+
+string Noticia::getTitulo(){
+    return titulo;
+}
+string Noticia::getDetalle(){
+    return detalle;
+}
+int Noticia::getDia(){
+    return dia;
+}
+int Noticia::getMes(){
+    return mes;
+}
+int Noticia::getAnio(){
+    return año;
+}
+
+Noticia::~Noticia(){}
+
+
 void Sistema::registrarAutor(){
     try{
     if (contAutor<20){ //Si contador es menor a la cantidad del vector no cargará nada.
@@ -86,13 +177,6 @@ void Sistema::registrarComentario(){
     }
 }
 
-Autor::Autor(){
-    nombre = " ";
-    dni=0;
-}
-Autor::Autor(string n, int doc, string m)
-:Persona(n, doc){
-    nombre=n;
-    dni=doc;
-    medio=m;
-}
+
+
+

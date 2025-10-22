@@ -27,19 +27,19 @@ class Noticia{
         Comentario comentarios[20];
     public:
         Noticia();
-        Noticia(string t, int d, int day, int mon, int an, int nn);
-        void setTitulo(string t);
-        void setDetalle(int d);
-        void setDia(int day);
-        void setMes(int mon);
-        void setAnio(int an);
+        Noticia(string,int,int,int,int,int);
+        void setTitulo(string);
+        void setDetalle(int);
+        void setDia(int);
+        void setMes(int);
+        void setAnio(int);
         string getTitulo();
         string getDetlle();
         int getDia();
         int getMes();
         int getAmio();
         int getNN();
-        void agregarcomentario(Comentario com);
+        void agregarcomentario(Comentario);
         ~Noticia();
 };
 
@@ -50,7 +50,7 @@ class Comentario{
         Usuario usuario;
     public:
         Comentario();
-        Comentario(int num, string tex, string usu);
+        Comentario(int,string,string);
         void setNumero(int);
         void setTexto(string);
         int getNumero();
@@ -63,7 +63,7 @@ class Medio{
         string nombremedio;
     public:
         Medio();
-        Medio(string n);
+        Medio(string);
         string getNombre();
         ~Medio();
 };
@@ -74,11 +74,11 @@ class Persona{
         string nombre;
     public:
         Persona();
-        Persona(string n, int doc){
-            nombre=n;
-            dni=doc;
-        }
-
+        Persona(string,int);
+        void setDni(int);
+        void setNombre(string);
+        int getDni();
+        string getNombre();
         ~Persona();
 };
 
@@ -87,7 +87,7 @@ class Autor : public Persona{
         Medio medio; // Composición
     public:
         Autor();
-        Autor(string n, int doc, string m);
+        Autor(string,int,string);
         ~Autor();
 };
 
@@ -97,6 +97,6 @@ class Usuario : public Persona{
 
     public:
     Usuario();
-    Usuario(string n, int doc, int e);
+    Usuario(string,int,int);
     ~Usuario();
 };

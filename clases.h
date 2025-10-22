@@ -80,6 +80,7 @@ class Autor : public Persona{
         Medio medio; // Composición
     public:
         Autor();
+        Autor(string,int,string);
         ~Autor();
 };
 
@@ -88,5 +89,6 @@ class Usuario : public Persona{
         int edad;
     public:
     Usuario();
+    Usuario(string,int,int);
     ~Usuario();
 };

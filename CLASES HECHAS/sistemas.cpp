@@ -46,7 +46,7 @@ void Sistema::registrarNoticia(){
     try{
         if (contAutor>0 && contnoticia<20){
             string titulo, detalle, autor;
-            int dia, mes, anio;
+            int dia, mes, anio, t;
             cout<<"----------- Cargar datos de la noticia. -----------"<<endl;
             cout<<"Día: ";cin>>dia;
             cout<<"Mes: ";cin>>mes;
@@ -54,8 +54,15 @@ void Sistema::registrarNoticia(){
             cout<<"Título: ";cin>>titulo;
             cout<<"Detalle de la noticia: ";cin>>detalle;
             cout<<"Autor de la noticia: "; cin>>autor;
-
-            noticias[contnoticia] = Noticia(titulo, detalle, dia, mes, anio, autor);
+            while (t<contAutor && autor!=autores[t].getNombre()){
+                t++;
+            }
+            if (t<contAutor){
+                noticias[contnoticia] = Noticia(titulo, detalle, dia, mes, anio, autor);
+                contnoticia++;
+            }else{
+                cout<<"No se ha encontrado al autor."<<endl;
+            }
         }else{
             cout<<"No hay autores registrados o la cantidad de noticias está llena."<<endl;
         }
@@ -66,17 +73,24 @@ void Sistema::registrarNoticia(){
 void Sistema::registrarComentario(){
     try{
         if (contnoticia>0 && contUsuario>0){
-            int i=0;
+            int i=0, j=0;
             string texto, usuario, titulo;
             cout<<"Título de noticia para comentar: "; cin>>titulo;
             while (i<contnoticia && noticias[i].getTitulo()!=titulo){
                 i++;
             }
             if (i<contnoticia){
-                cout<<"Nombre de usuario que comenta: ";cin>>usuario; cout<<endl;
-                cout<<"Comentario: "; cin>>texto;
-                Comentario c(i+1, texto, usuario);
-                noticias[i].agregarcomentario(c);
+                cout<<"Nombre de usuario que comenta: ";cin>>usuario;            
+                while (j<contUsuario && usuarios[j].getNombre()!=usuario){
+                    j++;
+                }
+                if (j<contUsuario){
+                    cout<<"Comentario: "; cin>>texto;
+                    Comentario c(i+1, texto, usuario);
+                    noticias[i].agregarcomentario(c);
+                }else{
+                    cout<<"Usuario no registrado."<<endl;
+                }   
             }else{
                 cout<<"Noticia no encontrada."<<endl;
             }        
@@ -88,12 +102,10 @@ void Sistema::registrarComentario(){
         cout<<"Error al publicar el comentario.";
     }
 }
-void Sistema::listarnoticiasanio(){
+void Sistema::listarnoticiasanio(int e){
     try{
-        int anio;
-        cout<<"Elegir el año de la noticia buscada: "; cin>>anio;
         for (int i=0; i<contnoticia;i++){
-            if (anio==noticias[i].getAnio()){
+            if (e==noticias[i].getAnio()){
                 cout<<"Noticia encontrada"<<endl;
                 cout<<"FECHA: "<<noticias[i].getDia()<<"/"<<noticias[i].getMes()<<"/"<<noticias[i].getAnio()<<endl;
                 cout<<"TITULO: "<<noticias[i].getTitulo()<<endl;
@@ -106,7 +118,7 @@ void Sistema::listarnoticiasanio(){
 }
 void Sistema::listarnoticiasmes(int mes, int anio){
     try{
-        int mesanterior=mes-1;
+        int mesanterior=mes-1, k=0;
         if (mesanterior=0){
             mesanterior=12;
             anio=anio-1;
@@ -115,7 +127,10 @@ void Sistema::listarnoticiasmes(int mes, int anio){
                 cout<<"FECHA: "<<noticias[i].getDia()<<"/"<<noticias[i].getMes()<<"/"<<noticias[i].getAnio()<<endl;
                 cout<<"TITULO: "<<noticias[i].getTitulo()<<endl;
                 cout<<"DETALLE: "<<noticias[i].getDetalle()<<endl;
+                k++;
             }
+        }if (k=0){
+            cout<<"No se encontraron noticias en ese mes."<<endl;
         }
     }catch(...){
         cout<<"Error al encontrar noticia."<<endl;
@@ -134,5 +149,23 @@ void Sistema::listarnoticiacomentario(string tit){
         cout<<"Error al cargar la noticia con comentarios.";
     }
 }
+void Sistema::listarnoticiaautor(string a){
+    try{
+        int p=0;
+        while (p<contAutor){
+            p++;
+        }
+        if (p<contAutor){
+            for (int e=0; e<contAutor;e++){
+            if (noticias[e].getAutor()==a){
+                noticias[e].mostrar();
+            }}
+        }else{
+                cout<<"No se han encontrado los autores."<<endl;
+    }}catch(...){
+        cout<<"Error al encontrar al autor y su noticia."<<endl;
+    }
+}
+Sistema::~Sistema(){}
 
 

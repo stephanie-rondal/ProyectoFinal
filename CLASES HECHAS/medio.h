@@ -12,7 +12,6 @@ class Medio{
         Medio(string);
         void setNombremedio(string);
         string getNombre();
-        //~Medio();
+        ~Medio();
 };
-
 #endif

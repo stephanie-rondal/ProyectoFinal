@@ -12,3 +12,4 @@ void Medio::setNombremedio(string _nm){
 string Medio::getNombre(){
     return nombremedio;
 }
+Medio::~Medio(){}

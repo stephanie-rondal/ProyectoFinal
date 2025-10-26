@@ -19,20 +19,17 @@ int main() {
             cout<<"Opcion: "<<endl;
             cin >> opcion;
             if (opcion==1) {sistema.registrarAutor();
-            }
-            else if (opcion==2) {
+            }else if (opcion==2) {
                 sistema.registrarUsuario();
-            }
-            else if (opcion==3){
+            }else if (opcion==3){
                 sistema.registrarNoticia();
-            }
-            else if (opcion==4){
+            }else if (opcion==4){
                 sistema.registrarComentario();
-            }
-            else if (opcion==5) {
-                sistema.listarnoticiasanio();
-            }
-            else if (opcion==6){
+            }else if (opcion==5) {
+                int anio;
+                cout<<"Elegir el año de la noticia buscada: "; cin>>anio;
+                sistema.listarnoticiasanio(anio);
+            }else if (opcion==6){
                 int mes, anio;
                     cout<<"Mes actual: ";cin>>mes;
                     while (mes>12 || mes<0){
@@ -45,12 +42,15 @@ int main() {
                         cin>>anio;
                     }
                 sistema.listarnoticiasmes(mes, anio);
-            }
-            else if(opcion==7){
+            }else if(opcion==7){
                 string titulo;
                 cout<<"Indique el título de la noticia: ";
                 cin>>titulo;
                 sistema.listarnoticiacomentario(titulo);
+            }else if(opcion==8){
+                    string nombreautor;
+                    cout<<"Elegir autor de la noticia buscada: "; cin>>nombreautor;
+                sistema.listarnoticiaautor(nombreautor);
             }
             else if (opcion!=0) cout << "Opcion no valida."<<endl;
         } catch (...) {

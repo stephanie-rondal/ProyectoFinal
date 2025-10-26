@@ -5,6 +5,7 @@
 #include "autor.h"
 #include "usuario.h"
 #include "noticias.h"
+#include "comentario.h"
 using namespace std;
 
 class Sistema{
@@ -21,10 +22,10 @@ class Sistema{
         void registrarUsuario();
         void registrarNoticia();
         void registrarComentario();
-        void listarnoticiasanio();
+        void listarnoticiasanio(int);
         void listarnoticiasmes(int,int);
         void listarnoticiacomentario(string);
-        void listarnoticiaautor();
+        void listarnoticiaautor(string);
         ~Sistema();
 };
 #endif

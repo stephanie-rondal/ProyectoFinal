@@ -73,9 +73,10 @@ void Noticia::mostrar() {
     cout << "TITULO: " << titulo << endl;
     cout << "DETALLE: " << detalle << endl;
     cout << "FECHA: "<<dia<<"/"<<mes<<"/"<<anio<<endl;
-    cout << "A: "<<autor<< endl;
+    cout << "AUTOR: "<<autor<< endl;
     cout << "Comentarios:" << endl;
     for (int i = 0; i < cantcomentario; i++) {
         comentarios[i].mostrar();
     }
 }
+Noticia::~Noticia(){}

@@ -9,3 +9,4 @@ Autor::Autor(string n, int doc, string m):Persona(n, doc){
     dni=doc;
     medio=m;
 }
+Autor::~Autor(){}

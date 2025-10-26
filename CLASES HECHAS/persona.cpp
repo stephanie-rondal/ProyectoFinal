@@ -23,3 +23,4 @@ string Persona::getNombre(){
 int Persona::getDni(){
     return dni;
 }
+Persona::~Persona(){}

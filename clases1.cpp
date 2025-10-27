@@ -4,11 +4,44 @@ Sistema::Sistema(){
     contAutor=0;
     contUsuario=0;
     contnoticia=0;
-
-
 }
 
-Persona::Persona(){}
+void Sistema::registrarAutor(){
+    try{
+    if (contAutor<20){ //Si contador es menor a la cantidad del vector no cargará nada.
+        int dni;
+        string nom, med;
+        cout<<"Registre su nombre: "; cin>>nom;
+        cout<<"Diga su DNI: "; cin>>dni;
+        cout<<"¿Para qué medio trabaja?: ";cin>>med;
+        autores[contAutor]=Autor(nom, dni, med);
+        contAutor++;
+    }else{
+        cout<<"La cantidad de AUTORES está llena. No se cargará su usuario.";
+    }}catch (...){
+        cout<<"Error al registrar AUTOR.";
+    }
+}
+void Sistema::registrarUsuario(){
+    try{
+    if (contUsuario<20){ //Si contador es menor a la cantidad del vector no cargará nada.
+        int dni, edad;
+        string nom;
+        cout<<"Registre su nombre: "; cin>>nom;
+        cout<<"Diga su DNI: "; cin>>dni;
+        cout<<"¿Qué edad tiene? : ";cin>>edad;
+        usuarios[contUsuario]=Usuario(nom, dni, edad);
+        contUsuario++;
+    }else{
+        cout<<"La cantidad de USUARIO está llena. No se cargará su usuario.";
+    }}catch (...){
+        cout<<"Error al registrar USUARIO.";
+    }   
+}
+
+Sistema::~Sistema(){}
+
+/*Persona::Persona(){}
 
 Persona::Persona(string _nombre, int _dni){
     nombre=_nombre;
@@ -63,6 +96,15 @@ Comentario::~Comentario(){}
 
 Noticia::Noticia(){}
 
+Noticia::Noticia(string t,string d,int Dia,int Mes,int Anio,int Nn){
+    titulo = t;
+    detalle = d;
+    dia = dia;
+    mes = Mes;
+    anio = Anio;
+    nn = Nn;
+}
+
 void Noticia::setTitulo(string t){
     titulo = t;
 }
@@ -76,7 +118,7 @@ void Noticia::setMes(int m){
     mes = m;
 }
 void Noticia::setAnio(int a){
-    año = a;
+    anio = a;
 }
 
 string Noticia::getTitulo(){
@@ -92,45 +134,13 @@ int Noticia::getMes(){
     return mes;
 }
 int Noticia::getAnio(){
-    return año;
+    return anio;
 }
 
-Noticia::~Noticia(){}
+Noticia::~Noticia(){}*/
 
 
-void Sistema::registrarAutor(){
-    try{
-    if (contAutor<20){ //Si contador es menor a la cantidad del vector no cargará nada.
-        int dni;
-        string nom, med;
-        cout<<"Registre su nombre: "; cin>>nom;
-        cout<<"Diga su DNI: "; cin>>dni;
-        cout<<"¿Para qué medio trabaja?: ";cin>>med;
-        autores[contAutor]=Autor(nom, dni, med);
-        contAutor++;
-    }else{
-        cout<<"La cantidad de AUTORES está llena. No se cargará su usuario.";
-    }}catch (...){
-        cout<<"Error al registrar AUTOR.";
-    }
-}
-void Sistema::registrarUsuario(){
-    try{
-    if (contUsuario<20){ //Si contador es menor a la cantidad del vector no cargará nada.
-        int dni, edad;
-        string nom;
-        cout<<"Registre su nombre: "; cin>>nom;
-        cout<<"Diga su DNI: "; cin>>dni;
-        cout<<"¿Qué edad tiene? : ";cin>>edad;
-        usuarios[contUsuario]=Usuario(nom, dni, edad);
-        contUsuario++;
-    }else{
-        cout<<"La cantidad de USUARIO está llena. No se cargará su usuario.";
-    }}catch (...){
-        cout<<"Error al registrar USUARIO.";
-    }   
-}
-void Sistema::registrarNoticia(){
+/*void Sistema::registrarNoticia(){
     try{
         if (contAutor>0 && contnoticia<20){
             string titulo, detalle;
@@ -175,7 +185,7 @@ void Sistema::registrarComentario(){
     }catch(...){
         cout<<"Error al publicar el comentario.";
     }
-}
+}*/
 
 
 

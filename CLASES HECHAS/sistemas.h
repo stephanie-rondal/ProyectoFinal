@@ -10,14 +10,17 @@ using namespace std;
 
 class Sistema{
     private:
-        // Composición
-        Autor autores[20];
-        Usuario usuarios[20];
-        Noticia noticias[20];
+        Autor *autores;
+        Usuario *usuarios;
+        Noticia *noticia;
         int contAutor=0, contUsuario=0, contnoticia=0;
     public:
         Sistema();
         Sistema(int,int,int);
+
+        int getcontAutor();
+        int getcotUsuario();
+        int getcontnoticia();
         void registrarAutor();
         void registrarUsuario();
         void registrarNoticia();

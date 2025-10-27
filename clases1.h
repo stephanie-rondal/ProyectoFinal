@@ -12,10 +12,10 @@ class Sistema{
         Sistema();
         void registrarAutor();
         void registrarUsuario();
-        void registrarNoticia();
+        /*void registrarNoticia();
         void registrarComentario();
         void listarnoticiasanio();
-        void listarnoticiasmes();
+        void listarnoticiasmes();*/
         ~Sistema();
 };
 
@@ -27,17 +27,17 @@ class Noticia{
         Comentario comentarios[20];
     public:
         Noticia();
-        Noticia(string,int,int,int,int,int);
+        Noticia(string,string,int,int,int,int);
         void setTitulo(string);
-        void setDetalle(int);
+        void setDetalle(string);
         void setDia(int);
         void setMes(int);
         void setAnio(int);
         string getTitulo();
-        string getDetlle();
+        string getDetalle();
         int getDia();
         int getMes();
-        int getAmio();
+        int getAnio();
         int getNN();
         void agregarcomentario(Comentario);
         ~Noticia();

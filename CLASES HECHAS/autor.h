@@ -4,6 +4,7 @@
 #include <string>
 #include "persona.h"
 #include "medio.h"
+#include "sistemas.h"
 using namespace std;
 
 class Autor : public Persona{
@@ -12,6 +13,7 @@ class Autor : public Persona{
     public:
         Autor();
         Autor(string,int,string);
+        void registrarNoticia();
         ~Autor();
 };
 

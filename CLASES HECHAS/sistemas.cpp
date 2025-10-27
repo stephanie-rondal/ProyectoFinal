@@ -26,6 +26,17 @@ void Sistema::registrarAutor(){
         cout<<"Error al registrar AUTOR.";
     }
 }
+
+int Sistema::getcontAutor(){
+    return contAutor;
+}
+int Sistema::getcotUsuario(){
+    return contUsuario;
+}
+int Sistema::getcontnoticia(){
+    return contnoticia;
+}
+
 void Sistema::registrarUsuario(){
     try{
     if (contUsuario<20){ //Si contador es menor a la cantidad del vector no cargará nada.
@@ -42,7 +53,8 @@ void Sistema::registrarUsuario(){
         cout<<"Error al registrar USUARIO.";
     }   
 }
-void Sistema::registrarNoticia(){
+
+/*void Sistema::registrarNoticia(){
     try{
         if (contAutor>0 && contnoticia<20){
             string titulo, detalle, autor;
@@ -69,7 +81,7 @@ void Sistema::registrarNoticia(){
     }catch(...){
         cout<<"Error al cargar la NOTICIA.";
     }
-}
+}*/
 void Sistema::registrarComentario(){
     try{
         if (contnoticia>0 && contUsuario>0){

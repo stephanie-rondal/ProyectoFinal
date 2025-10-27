@@ -18,14 +18,6 @@ class Persona{
         ~Persona();
 };
 
-#endif
-
-#ifndef MEDIO_H
-#define MEDIO_H
-#include <iostream>
-#include <string>
-using namespace std;
-
 class Medio{
     private:
         string nombremedio;
@@ -36,15 +28,7 @@ class Medio{
         string getNombre();
         ~Medio();
 };
-#endif
 
-#ifndef AUTOR_H
-#define AUTOR_H
-#include <iostream>
-#include <string>
-#include "persona.h"
-#include "medio.h"
-using namespace std;
 
 class Autor : public Persona{
     private:
@@ -54,14 +38,6 @@ class Autor : public Persona{
         Autor(string,int,string);
         ~Autor();
 };
-
-#endif
-
-#ifndef COMENTARIO_H
-#define COMENTARIO_H
-#include <iostream>
-#include <string>
-using namespace std;
 
 class Comentario{
     private:
@@ -77,15 +53,6 @@ class Comentario{
         void mostrar();
         ~Comentario();
 };
-
-#endif
-
-#ifndef NOTICIA_H
-#define NOTICIA_H
-#include <iostream>
-#include <string>
-#include "comentario.h"
-using namespace std;
 
 class Noticia{
     private:
@@ -111,16 +78,6 @@ class Noticia{
         void mostrar();
         ~Noticia();
 };
-#endif
-
-#ifndef USUARIO_H
-#define USUARIO_H
-#include <iostream>
-#include <string>
-#include "persona.h"
-#include "comentario.h"
-#include "sistemas.h"
-using namespace std;
 
 class Usuario : public Persona{
     private:
@@ -132,23 +89,14 @@ class Usuario : public Persona{
     void agregarcomentario();
     ~Usuario();
 };
-#endif
 
-#ifndef SISTEMA_H
-#define SISTEMA_H
-#include <iostream>
-#include <string>
-#include "autor.h"
-#include "usuario.h"
-#include "noticias.h"
-using namespace std;
 
 class Sistema{
     private:
         // Composición
-        Autor autores[20];
-        Usuario usuarios[20];
-        Noticia noticias[20];
+        Autor *autores;
+        Usuario *usuarios;
+        Noticia *noticias;
         int contAutor=0, contUsuario=0, contnoticia=0;
     public:
         Sistema();

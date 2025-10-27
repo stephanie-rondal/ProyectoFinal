@@ -5,7 +5,7 @@ int main() {
     Sistema sistema;
     int opcion=1;
     while (opcion!=0) {
-        try {
+        
             cout<<endl<<"--- MENU ---"<<endl;
             cout<<"1. Registrar autor"<<endl;
             cout<<"2. Registrar usuario"<<endl;
@@ -18,6 +18,7 @@ int main() {
             cout<<"0. Salir"<<endl;
             cout<<"Opcion: "<<endl;
             cin >> opcion;
+        try {
             if (opcion==1) {sistema.registrarAutor();
             }else if (opcion==2) {
                 sistema.registrarUsuario();
@@ -26,31 +27,13 @@ int main() {
             }else if (opcion==4){
                 sistema.registrarComentario();
             }else if (opcion==5) {
-                int anio;
-                cout<<"Elegir el año de la noticia buscada: "; cin>>anio;
-                sistema.listarnoticiasanio(anio);
+                sistema.listarnoticiasanio();
             }else if (opcion==6){
-                int mes, anio;
-                    cout<<"Mes actual: ";cin>>mes;
-                    while (mes>12 || mes<0){
-                        cout<<"Error, no existe ese mes. Cárguelo de nuevo: ";
-                        cin>>mes;
-                    }
-                    cout<<"Año actual: ";cin>>anio;
-                    while (anio>2025 && anio<0){
-                        cout<<"Año incorrecto, no pasó o es negativo. Cargue nuevamente: ";
-                        cin>>anio;
-                    }
-                sistema.listarnoticiasmes(mes, anio);
+                sistema.listarnoticiasmes();
             }else if(opcion==7){
-                string titulo;
-                cout<<"Indique el título de la noticia: ";
-                cin>>titulo;
-                sistema.listarnoticiacomentario(titulo);
+                sistema.listarnoticiacomentario();
             }else if(opcion==8){
-                    string nombreautor;
-                    cout<<"Elegir autor de la noticia buscada: "; cin>>nombreautor;
-                sistema.listarnoticiaautor(nombreautor);
+                sistema.listarnoticiaautor();
             }
             else if (opcion!=0) cout << "Opcion no valida."<<endl;
         } catch (...) {

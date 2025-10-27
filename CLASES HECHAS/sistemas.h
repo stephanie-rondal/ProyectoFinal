@@ -22,10 +22,10 @@ class Sistema{
         void registrarUsuario();
         void registrarNoticia();
         void registrarComentario();
-        void listarnoticiasanio(int);
-        void listarnoticiasmes(int,int);
-        void listarnoticiacomentario(string);
-        void listarnoticiaautor(string);
+        void listarnoticiasanio();
+        void listarnoticiasmes();
+        void listarnoticiacomentario();
+        void listarnoticiaautor();
         ~Sistema();
 };
 #endif

@@ -23,6 +23,6 @@ string Comentario::getTexto(){
     return texto;
 }
 void Comentario::mostrar() {
-    cout << "Comentario "<<numero<<": "<<texto<<" (Usuario: " << usuario << ")" << endl;
+    cout<<"Comentario "<<numero<<": "<<texto<<endl<<"Usuario: "<<usuario<<endl;
 }
 Comentario::~Comentario(){}

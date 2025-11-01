@@ -11,8 +11,8 @@ int main() {
             cout<<"2. Registrar usuario"<<endl;
             cout<<"3. Publicar noticia"<<endl;
             cout<<"4. Comentar noticia"<<endl;
-            cout<<"5. Listar noticias por año"<<endl;
-            cout<<"6. Mostrar noticia del último mes"<<endl;
+            cout<<"5. Listar noticias por anio"<<endl;
+            cout<<"6. Mostrar noticia del ultimo mes"<<endl;
             cout<<"7. Mostrar noticia con comentarios"<<endl;
             cout<<"8. Mostrar noticia por un determinado autor"<<endl;
             cout<<"0. Salir"<<endl;

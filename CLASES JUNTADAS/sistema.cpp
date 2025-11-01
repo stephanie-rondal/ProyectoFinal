@@ -1,4 +1,4 @@
-#include "clases.h" // Se asume que ahora todas las cabeceras se incluyen desde "clases.h"
+#include "clases.h" 
 
 // Implementación de Persona
 Persona::Persona(){
@@ -44,11 +44,17 @@ void Comentario::setNumero(int n){
 void Comentario::setTexto(string t){
     texto = t;
 }
+void Comentario::setUsuario(string u){
+    usuario = u;
+}
 int Comentario::getNumero(){
     return numero;
 }
 string Comentario::getTexto(){
     return texto;
+}
+string Comentario::getUsuario(){
+    return usuario;
 }
 void Comentario::mostrar() {
     cout<<"Comentario "<<numero<<": "<<texto<<endl<<"Usuario: "<<usuario<<endl;
@@ -73,16 +79,12 @@ Medio::~Medio(){}
 
 
 // Implementación de Autor
-Autor::Autor(){
-    nombre = "";
-    dni=0;
+Autor::Autor() : Persona(), medio(""){ //Se llama a los contrcutores de persona y medio, 
 }
-Autor::Autor(string n, int doc, string m):Persona(n, doc){
-    nombre=n;
-    dni=doc;
-    medio=m;
+Autor::Autor(string n, int doc, string m):Persona(n, doc), medio(m){; //Se llama a los contrctores parametrizados
 }
 Autor::~Autor(){}
+
 
 
 // Implementación de Noticia
@@ -94,6 +96,9 @@ Noticia::Noticia(){
     anio=0;
     autor="";
     cantcomentario=0;
+        //Redefiní los contructores creando un arreglo dinámico
+    maxComentarios = 20;  //Valor que podemos cambiar
+    comentarios = new Comentario[maxComentarios]; // La capacidad máxima nos sirve para el manejo de excepciones
 }
 
 Noticia::Noticia(string _titulo,string _detalle,int _dia,int _mes,int _anio,string _autor){
@@ -104,6 +109,8 @@ Noticia::Noticia(string _titulo,string _detalle,int _dia,int _mes,int _anio,stri
     anio=_anio;
     autor=_autor;
     cantcomentario=0;
+    maxComentarios = 20; 
+    comentarios = new Comentario[maxComentarios];
 }
 
 void Noticia::setTitulo(string t){
@@ -145,7 +152,7 @@ string Noticia::getAutor(){
 }
 void Noticia::agregarcomentario(Comentario _c){
     try{
-        if (cantcomentario<20){
+        if (cantcomentario <= maxComentarios){
             comentarios[cantcomentario]= _c;
             cantcomentario++;
         }else{
@@ -155,6 +162,7 @@ void Noticia::agregarcomentario(Comentario _c){
         cout<<"Error al cargar el comentario"<<endl;
     }
 }
+
 void Noticia::mostrar() {
     cout << "TITULO: " << titulo << endl;
     cout << "DETALLE: " << detalle << endl;
@@ -162,15 +170,20 @@ void Noticia::mostrar() {
     cout << "AUTOR: "<<autor<< endl;
     
     cout << "***Comentarios***" << endl;
-    for (int i = 0; i < cantcomentario; i++) {
+    if (cantcomentario != 0)
+    {
+        for (int i = 0; i < cantcomentario; i++) {
         comentarios[i].mostrar();
+        }
+    } else{
+        cout << "No se han publicado comentarios." <<endl;
     }
 }
 Noticia::~Noticia(){}
 
 
 // Implementación de Usuario
-Usuario::Usuario(){
+Usuario::Usuario():Persona(){
     edad=0;
 }
 Usuario::Usuario(string _nombre, int _dni, int _edad):Persona(_nombre,_dni){
@@ -181,65 +194,92 @@ Usuario::~Usuario(){}
 
 // Implementación de Sistema
 Sistema::Sistema(){
-    contAutor=0;
-    contUsuario=0;
-    contnoticia=0;
+    contAutor = contUsuario = contnoticia = 0;
+    maxAutores = maxUsuarios= maxNoticias = 20; // Puse un valor arbitrario para poder crear los arreglos dinámicos
+    autores = new Autor[maxAutores];
+    usuarios = new Usuario[maxUsuarios];
+    noticias = new Noticia[maxNoticias];
 }
 Sistema::Sistema(int _autor,int _usuario,int _noti){
     contAutor=_autor;
     contUsuario=_usuario;
     contnoticia=_noti;
+    maxAutores = maxUsuarios= maxNoticias = 20;
+    autores = new Autor[maxAutores];
+    usuarios = new Usuario[maxUsuarios];
+    noticias = new Noticia[maxNoticias];
 }
+
 void Sistema::registrarAutor(){
     try{
-    if (contAutor<20){ //Si contador es menor a la cantidad del vector no cargará nada.
-        int dni;
-        string nom, med;
-        cout<<"Registre su nombre: "; cin>>nom;
-        cout<<"Diga su DNI: "; cin>>dni;
-        cout<<"¿Para qué medio trabaja?: ";cin>>med;
-        autores[contAutor]=Autor(nom, dni, med);
-        contAutor++;
-    }else{
-        cout<<"La cantidad de AUTORES está llena. No se cargará su usuario.";
-    }}catch (...){
+        if (contAutor <= maxAutores){
+            int dni;
+            string nom, med;
+
+            cout << "--------- Ingrese los siguientes datos -------- "<< endl;
+            cout<<"Nombre: "; 
+            cin.ignore(); // para poder usar getline
+            getline(cin, nom); // getline es un método de la libreria estandar que estamos usando (iostream), así se puede leer la cadena ingresada aunque tenga espacios
+            cout<<"DNI: "; cin>>dni;
+            cout<<"Medio: "; 
+            cin.ignore(); getline(cin, med); //cin>>med;
+            autores[contAutor]=Autor(nom, dni, med);
+            contAutor++;
+            cout << "Se ha registrado correctamente" << endl;
+
+        }else{
+            cout<<"La cantidad de AUTORES está llena. No se cargará su usuario.";
+        }
+    }catch (...){
         cout<<"Error al registrar AUTOR.";
     }
 }
+
 void Sistema::registrarUsuario(){
     try{
-    if (contUsuario<20){ //Si contador es menor a la cantidad del vector no cargará nada.
-        int dni, edad;
-        string nom;
-        cout<<"Registre su nombre: "; cin>>nom;
-        cout<<"Diga su DNI: "; cin>>dni;
-        cout<<"¿Qué edad tiene? : ";cin>>edad;
-        usuarios[contUsuario]=Usuario(nom, dni, edad);
-        contUsuario++;
-    }else{
-        cout<<"La cantidad de USUARIO está llena. No se cargará su usuario.";
-    }}catch (...){
+        if (contUsuario <= maxUsuarios){
+            int dni, edad;
+            string nom;
+
+            cout << "--------- Ingrese los siguientes datos -------- "<< endl;
+            cout<<"Nombre: "; 
+            cin.ignore(); getline(cin, nom);
+            cout<<"DNI: "; cin>>dni;
+            cout<<"Edad : ";cin>>edad;
+            usuarios[contUsuario]=Usuario(nom, dni, edad);
+            contUsuario++;
+            cout << "Se ha registrado correctamente" << endl;
+
+        }else{
+            cout<<"La cantidad de USUARIOS está llena. No se cargará su usuario.";
+        }
+    }catch (...){
         cout<<"Error al registrar USUARIO.";
     }   
 }
+
 void Sistema::registrarNoticia(){
     try{
-        if (contAutor>0 && contnoticia<20){
+        if (contAutor > 0 && contnoticia <= maxNoticias){
             string titulo, detalle, autor;
-            int dia, mes, anio, t;
-            cout<<"----------- Cargar datos de la noticia. -----------"<<endl;
-            cout<<"Día: ";cin>>dia;
-            cout<<"Mes: ";cin>>mes;
-            cout<<"Año: ";cin>>anio;
-            cout<<"Título: ";cin>>titulo;
-            cout<<"Detalle de la noticia: ";cin>>detalle;
-            cout<<"Autor de la noticia: "; cin>>autor;
+            int dia, mes, anio, t = 0;
+            
+            cout<<"----------- Cargue los siguientes datos de la noticia -----------"<<endl;
+            cin.ignore();
+            cout<<"Titulo: "; getline(cin, titulo);
+            cout<<"Detalle de la noticia: "; getline(cin, detalle);
+            cout<<"Autor de la noticia: "; getline(cin, autor);
+            cout<<"Fecha (en este formato: dia mes anio):"; cin >> dia >> mes >>anio; // Se pueden cargar de una pq el metodo cin lee las cadenas y para de leer cuando hay un espacios
+            
+            //Buscar autor
             while (t<contAutor && autor!=autores[t].getNombre()){
                 t++;
             }
             if (t<contAutor){
+                //Crear noticia
                 noticias[contnoticia] = Noticia(titulo, detalle, dia, mes, anio, autor);
                 contnoticia++;
+                cout << "La noticia se ha resgitrado correctamente." << endl;
             }else{
                 cout<<"No se ha encontrado al autor."<<endl;
             }
@@ -250,24 +290,34 @@ void Sistema::registrarNoticia(){
         cout<<"Error al cargar la NOTICIA.";
     }
 }
+
 void Sistema::registrarComentario(){
     try{
         if (contnoticia>0 && contUsuario>0){
             int i=0, j=0;
             string texto, usuario, titulo;
-            cout<<"Título de noticia para comentar: "; cin>>titulo;
-            while (i<contnoticia && noticias[i].getTitulo()!=titulo){
+            
+            cout<<"----------- Cargue los siguientes datos -----------"<<endl;
+            cin.ignore();
+            cout<<"Titulo de la noticia a comentar: "; getline(cin, titulo);
+            // Buscar noticia
+            while (i < contnoticia && noticias[i].getTitulo()!=titulo){
                 i++;
             }
-            if (i<contnoticia){
-                cout<<"Nombre de usuario que comenta: ";cin>>usuario;            
-                while (j<contUsuario && usuarios[j].getNombre()!=usuario){
+
+            if (i < contnoticia){
+                cout<<"Nombre de usuario que comenta: "; getline(cin, usuario);            
+                // Buscar usuario
+                while (j < contUsuario && usuarios[j].getNombre()!=usuario){
                     j++;
                 }
-                if (j<contUsuario){
-                    cout<<"Comentario: "; cin>>texto;
+
+                if (j < contUsuario){
+                    cout<<"Comentario a publicar: "; getline(cin, texto);
+                    //Crear comentario y agregarlo a la noticia
                     Comentario c(i+1, texto, usuario);
                     noticias[i].agregarcomentario(c);
+                    cout << "El comentario se ha publicado corectamente."<<endl;
                 }else{
                     cout<<"Usuario no registrado."<<endl;
                 }   
@@ -282,26 +332,26 @@ void Sistema::registrarComentario(){
         cout<<"Error al publicar el comentario.";
     }
 }
+
 void Sistema::listarnoticiasanio(){
     try{
-        if (contnoticia>0){
-            int anio;
-            cout<<"Elegir el año de la noticia buscada: "; cin>>anio;
-            for (int i=0; i<contnoticia;i++){
-                if (anio==noticias[i].getAnio()){
+        int anio;
+        if (contnoticia > 0){
+            cout<<"Ingrese el anio: "; cin>>anio;
+            for (int i=0; i< contnoticia; i++){
+                if (anio == noticias[i].getAnio()){
                     cout<<"Noticia encontrada"<<endl;
-                    cout<<"FECHA: "<<noticias[i].getDia()<<"/"<<noticias[i].getMes()<<"/"<<noticias[i].getAnio()<<endl;
-                    cout<<"TITULO: "<<noticias[i].getTitulo()<<endl;
-                    cout<<"DETALLE: "<<noticias[i].getDetalle()<<endl;
+                    noticias[i].mostrar();
                 }
             }
         }else{
-            cout<<"No hay noticias cargadas todavía."<<endl;
+            cout<<"No se han encontrado noticias publicadas en "<< anio <<endl;
         }
     }catch(...){
         cout<<"Error al listar la noticia."<<endl;
     }
 }
+
 void Sistema::listarnoticiasmes(){
     try{
         int k=0;
@@ -328,7 +378,7 @@ void Sistema::listarnoticiasmes(){
                 }
             }
         }else{
-            cout<<"No hay noticias cargadas todavía."<<endl;
+            cout<<"No se han cargado noticias."<<endl;
         }if (k=0){
             cout<<"No se encontraron noticias en ese mes."<<endl;}
     }catch(...){
@@ -338,40 +388,53 @@ void Sistema::listarnoticiasmes(){
 void Sistema::listarnoticiacomentario(){
     try{
         if (contnoticia>0){
-                string titulo;
-                cout<<"Indique el título de la noticia: ";
-                cin>>titulo;
+            string titulo;
+            cout<<"Indique el titulo de la noticia: ";
+            cin.ignore();
+            getline(cin, titulo);
             for (int i=0; i<contnoticia; i++){
                 if (noticias[i].getTitulo()==titulo){
                     noticias[i].mostrar();
                 }
             }
         }else{
-            cout<<"No hay noticias cargadas."<<endl;
+            cout<<"No se han cargado noticias."<<endl;
         }
     }catch(...){
         cout<<"Error al cargar la noticia con comentarios.";
     }
 }
+
 void Sistema::listarnoticiaautor(){
     try{
         if (contnoticia>0){
-            int p=0;
             string autor;
-            cout<<"Diga el nombre del autor: ";cin>>autor;
+            bool bandera = false;
+            cout<<"Indique el nombre del autor: ";
+            cin.ignore();
+            getline(cin, autor);
             for (int i=0; i<contAutor; i++){
                 if (noticias[i].getAutor()==autor){
                     noticias[i].mostrar();
-                    p=p+1;
+                    bandera = true;
                 }
-            }if (p==0){
-            cout<<"No se encontraron noticias del autor."<<endl;
-        }}else{
-            cout<<"No hay noticias registradas."<<endl;
-        }
-        
+            }if (bandera == false){
+            cout<<"No se han encontrado noticias del autor."<<endl;
+            }
+        }else{
+            cout<<"No se han cargado noticias."<<endl;
+        }    
     }catch(...){
         cout<<"Error al encontrar al autor y su noticia."<<endl;
     }
 }
-Sistema::~Sistema(){}
+
+Sistema::~Sistema(){
+    //Para borrar el espacios dinámico usado por los arreglos
+    delete[] autores;
+    delete[] usuarios;
+    delete[] noticias;
+    noticias = nullptr;
+    autores = nullptr;
+    usuarios = nullptr;
+}

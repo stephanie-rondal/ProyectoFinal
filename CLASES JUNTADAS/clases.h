@@ -2,6 +2,7 @@
 #define PERSONA_H
 #include <iostream>
 #include <string>
+#include <fstream>
 using namespace std;
 
 class Persona{
@@ -102,7 +103,6 @@ class Sistema{
         int contAutor=0, contUsuario=0, contnoticia=0;
     public:
         Sistema();
-        Sistema(int,int,int);
         
         void registrarAutor();
         void registrarUsuario();

@@ -1,4 +1,6 @@
 #include "clases.h" 
+#include <string>
+#include <fstream>
 
 // Implementación de Persona
 Persona::Persona(){
@@ -203,15 +205,20 @@ Sistema::Sistema(){
     autores = new Autor[maxAutores];
     usuarios = new Usuario[maxUsuarios];
     noticias = new Noticia[maxNoticias];
-}
-Sistema::Sistema(int _autor,int _usuario,int _noti){
-    contAutor=_autor;
-    contUsuario=_usuario;
-    contnoticia=_noti;
-    maxAutores = maxUsuarios= maxNoticias = 20;
-    autores = new Autor[maxAutores];
-    usuarios = new Usuario[maxUsuarios];
-    noticias = new Noticia[maxNoticias];
+    
+    // Leer los datos guardados en, hay que hacerlo recorriendo el arreglo 
+    ifstream archivo("autores.txt");
+    string nombre, medio;
+    int dni;
+    while (getline(archivo, nombre)) {
+        archivo >> dni;
+        archivo.ignore();
+        getline(archivo, medio);
+        autores[contAutor] = Autor(nombre, dni, medio);
+        contAutor++;
+    }
+    archivo.close();
+
 }
 
 void Sistema::registrarAutor(){
@@ -229,8 +236,15 @@ void Sistema::registrarAutor(){
             cin.ignore(); getline(cin, med);
             autores[contAutor]=Autor(nom, dni, med);
             contAutor++;
-            cout << "Se ha registrado correctamente" << endl;
 
+            // Guardar los datos en el archivo autores.txt
+            ofstream archivo("autores.txt", ios::app); 
+            archivo << nom <<endl;
+            archivo << dni <<endl;
+            archivo << med <<endl;
+            archivo.close();
+            
+            cout << "Se ha registrado correctamente" << endl;
         }else{
             cout<<"La cantidad de AUTORES está llena. No se cargará su usuario.";
         }
@@ -252,8 +266,14 @@ void Sistema::registrarUsuario(){
             cout<<"Edad : ";cin>>edad;
             usuarios[contUsuario]=Usuario(nom, dni, edad);
             contUsuario++;
-            cout << "Se ha registrado correctamente" << endl;
 
+            // Guardar los datos en el archivo usuarios.txt
+            ofstream archivo2("usuarios.txt", ios::app); 
+            archivo2 << nom <<endl;
+            archivo2 << dni <<endl;
+            archivo2 << edad <<endl;
+            archivo2.close();
+            cout << "Se ha registrado correctamente" << endl;
         }else{
             cout<<"La cantidad de USUARIOS está llena. No se cargará su usuario.";
         }
@@ -283,6 +303,16 @@ void Sistema::registrarNoticia(){
                 //Crear noticia
                 noticias[contnoticia] = Noticia(titulo, detalle, dia, mes, anio, autor);
                 contnoticia++;
+
+                // Guardar los datos en el archivo noticias.txt
+                ofstream archivo("noticias.txt", ios::app); 
+                archivo << titulo <<endl;
+                archivo << detalle <<endl;
+                archivo << dia <<endl;
+                archivo << mes <<endl;
+                archivo << anio <<endl;
+                archivo << autor <<endl;
+                archivo.close();
                 cout << "La noticia se ha resgitrado correctamente." << endl;
             }else{
                 cout<<"No se ha encontrado al autor."<<endl;
@@ -321,6 +351,14 @@ void Sistema::registrarComentario(){
                     //Crear comentario y agregarlo a la noticia
                     Comentario c(i+1, texto, usuario);
                     noticias[i].agregarcomentario(c);
+
+                    // Guardar los datos en el archivo autores.txt
+                    ofstream archivo("comentarios.txt", ios::app); 
+                    //archivo << numero <<endl;
+                    archivo << texto <<endl;
+                    archivo << usuario <<endl;
+                    archivo.close();
+
                     cout << "El comentario se ha publicado corectamente."<<endl;
                 }else{
                     cout<<"Usuario no registrado."<<endl;

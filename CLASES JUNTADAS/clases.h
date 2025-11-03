@@ -32,7 +32,7 @@ class Medio{
 
 class Autor : public Persona{
     private:
-        Medio medio; // Composición
+        Medio medio;
     public:
         Autor();
         Autor(string,int,string);
@@ -48,8 +48,10 @@ class Comentario{
         Comentario(int,string,string);
         void setNumero(int);
         void setTexto(string);
+        void setUsuario(string);
         int getNumero();
         string getTexto();
+        string getUsuario();
         void mostrar();
         ~Comentario();
 };
@@ -58,7 +60,8 @@ class Noticia{
     private:
         string titulo, detalle, autor;
         int dia, mes, anio, cantcomentario=0;
-        Comentario comentarios[20];
+        int maxComentarios;   // Capacidad máxima de comentarios para poder crear el arreglo dinámico de comentarios
+        Comentario *comentarios;    // Declaré la composición por referencia (puntero)
     public:
         Noticia();
         Noticia(string,string,int,int,int,string);
@@ -81,30 +84,32 @@ class Noticia{
 
 class Usuario : public Persona{
     private:
-    int edad;
-
+        int edad;
     public:
-    Usuario();
-    Usuario(string,int,int);
-    void agregarcomentario();
-    ~Usuario();
+        Usuario();
+        Usuario(string,int,int);
+        void agregarcomentario();
+        ~Usuario();
 };
 
 
 class Sistema{
     private:
-        // Composición
         Autor *autores;
         Usuario *usuarios;
         Noticia *noticias;
+        int maxAutores, maxUsuarios, maxNoticias; // Capacidad maxima para poder crear los arreglos dinámicos
         int contAutor=0, contUsuario=0, contnoticia=0;
     public:
         Sistema();
         Sistema(int,int,int);
+        
         void registrarAutor();
         void registrarUsuario();
+        
         void registrarNoticia();
         void registrarComentario();
+
         void listarnoticiasanio();
         void listarnoticiasmes();
         void listarnoticiacomentario();

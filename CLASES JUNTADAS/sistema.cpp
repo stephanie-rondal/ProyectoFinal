@@ -13,20 +13,37 @@ Persona::Persona(string _nombre, int _dni){
     dni=_dni;
 }
 
-void Persona::setNombre(string n){
-    nombre = n;
-}
-void Persona::setDni(int d){
-    dni = d;
+Noticia::Noticia(string _titulo, string _detalle, int _dia, int _mes, int _anio, string _autor)
+    : titulo(_titulo), detalle(_detalle), dia(_dia), mes(_mes), anio(_anio), autor(_autor),
+      cantcomentario(0), maxComentarios(50) {
+    comentarios = new Comentario[maxComentarios];
 }
 
-string Persona::getNombre(){
-    return nombre;
+// Setters
+void Noticia::setTitulo(string t) { titulo = t; }
+void Noticia::setDetalle(string d) { detalle = d; }
+void Noticia::setDia(int d) { dia = d; }
+void Noticia::setMes(int m) { mes = m; }
+void Noticia::setAnio(int a) { anio = a; }
+void Noticia::setAutor(string _au) { autor = _au; }
+
+// Getters
+string Noticia::getTitulo() { return titulo; }
+string Noticia::getDetalle() { return detalle; }
+int Noticia::getDia() { return dia; }
+int Noticia::getMes() { return mes; }
+int Noticia::getAnio() { return anio; }
+string Noticia::getAutor() { return autor; }
+
+void Noticia::agregarcomentario(Comentario _c) {
+    if (cantcomentario < maxComentarios) {
+        comentarios[cantcomentario] = _c;
+        cantcomentario++;
+        cout << "Comentario agregado exitosamente!" << endl;
+    } else {
+        cout << "Error: No se pueden agregar más comentarios a esta noticia." << endl;
+    }
 }
-int Persona::getDni(){
-    return dni;
-}
-Persona::~Persona(){}
 
 
 // Implementación de Comentario

@@ -40,4 +40,5 @@ int main() {
             cout << "Error en el menú."<<endl;
         }
     }
+    sistema.~Sistema();
 }

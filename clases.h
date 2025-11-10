@@ -78,6 +78,7 @@ class Noticia{
         int getMes();
         int getAnio();
         string getAutor();
+        int getcantcometario();
         void agregarcomentario(Comentario);
         void mostrar();
         ~Noticia();
@@ -91,7 +92,6 @@ class Usuario : public Persona{
         Usuario(string,int,int);
         void setEdad(int);
         int getEdad();
-        //void agregarcomentario();
         ~Usuario();
 };
 

@@ -103,10 +103,10 @@ Noticia::Noticia(){
     maxComentarios = 20;  
     comentarios = new Comentario[maxComentarios];
     
-    ifstream archivo4("comentarios.txt");
+    /*ifstream archivo4("comentarios.txt");
     string texto, usuario;
-    int numero;
-    /*while (getline(archivo4, titulo)) {
+    int numero, cantcomentario, maxComentarios;
+    while (getline(archivo4, titulo)) {
         getline(archivo4, texto);
         archivo4 >> numero;
         archivo4.ignore(); 
@@ -165,6 +165,10 @@ int Noticia::getAnio(){
 string Noticia::getAutor(){
     return autor;
 }
+int Noticia::getcantcometario(){
+    return cantcomentario;
+}
+
 void Noticia::agregarcomentario(Comentario _c){
     try{
         if (cantcomentario <= maxComentarios){
@@ -405,7 +409,8 @@ void Sistema::registrarComentario(){
 
                     // Guardar los datos en el archivo autores.txt
                     ofstream archivo4("comentarios.txt", ios::app); 
-                    //archivo << numero <<endl;
+                    //archivo4 << numero <<endl;
+                    archivo4 << titulo <<endl;
                     archivo4 << texto <<endl;
                     archivo4 << usuario <<endl;
                     archivo4.close();

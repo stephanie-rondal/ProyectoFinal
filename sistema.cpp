@@ -103,18 +103,6 @@ Noticia::Noticia(){
     maxComentarios = 20;  
     comentarios = new Comentario[maxComentarios];
     
-    /*ifstream archivo4("comentarios.txt");
-    string texto, usuario;
-    int numero, cantcomentario, maxComentarios;
-    while (getline(archivo4, titulo)) {
-        getline(archivo4, texto);
-        archivo4 >> numero;
-        archivo4.ignore(); 
-        getline(archivo4, usuario);
-        comentarios[maxComentarios] = Comentario(numero, texto, usuario);
-        cantcomentario++;
-    }
-    archivo4.close();*/
 }
 
 Noticia::Noticia(string _titulo,string _detalle,int _dia,int _mes,int _anio,string _autor){

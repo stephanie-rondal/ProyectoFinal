@@ -79,6 +79,7 @@ class Noticia{
         int getAnio();
         string getAutor();
         void agregarcomentario(Comentario);
+        int cantComentarios();
         void mostrar();
         ~Noticia();
 };

@@ -1,6 +1,7 @@
 #include "clases.h" 
 #include <string>
 #include <fstream>
+#include <sstream>
 
 // Implementación de Persona
 Persona::Persona(){
@@ -97,10 +98,13 @@ Noticia::Noticia(){
     mes=0;
     anio=0;
     autor="";
-    //cantcomentario=0;
+    cantcomentario=0;
         //Redefiní los contructores creando un arreglo dinámico
     maxComentarios = 20;  //Valor que podemos cambiar
     comentarios = new Comentario[maxComentarios]; // La capacidad máxima nos sirve para el manejo de excepciones
+    for(int i = 0; i < maxComentarios; i++) {
+        comentarios[i] = Comentario();
+    }
 }
 
 Noticia::Noticia(string _titulo,string _detalle,int _dia,int _mes,int _anio,string _autor){
@@ -110,9 +114,13 @@ Noticia::Noticia(string _titulo,string _detalle,int _dia,int _mes,int _anio,stri
     mes=_mes;
     anio=_anio;
     autor=_autor;
-    //cantcomentario=0;
+    cantcomentario=0;
     maxComentarios = 20; 
     comentarios = new Comentario[maxComentarios];
+    for(int i = 0; i < maxComentarios; i++) {
+        comentarios[i] = Comentario();
+    }
+    
 }
 
 void Noticia::setTitulo(string t){
@@ -154,9 +162,14 @@ string Noticia::getAutor(){
 }
 void Noticia::agregarcomentario(Comentario _c){
     try{
-        if (cantcomentario <= maxComentarios){
-            comentarios[cantcomentario]= _c;
+        if (comentarios == nullptr) {
+            cout << "ERROR: comentarios es NULL!" << endl;
+            return;
+        }
+        if (cantcomentario < maxComentarios){
+            comentarios[cantcomentario] = _c;
             cantcomentario++;
+            cout << "DEBUG: Comentario agregado en posicion " << (cantcomentario-1) << endl;
         }else{
             cout<<"Ya no se pueden cargar más comentarios."<<endl;
         }
@@ -182,6 +195,11 @@ void Noticia::mostrar() {
         cout << "No se han publicado comentarios." <<endl;
     }
 }
+
+int Noticia::cantComentarios(){
+    return cantcomentario;
+}
+
 Noticia::~Noticia(){
     delete[] comentarios;
     comentarios=nullptr;
@@ -219,11 +237,66 @@ Sistema::Sistema(){
     }
     archivo.close();
 
+    ifstream archivo1("noticias.txt");
+    string autor, cuerpo, titulo,fecha,trash;
+    int dia,mes, anio;
+
+    while (getline(archivo1, fecha)) {
+        if (fecha.find('/') != string::npos) {
+            stringstream ss(fecha);
+            char separador;
+            if (ss >> dia >> separador >> mes >> separador >> anio) {
+                getline(archivo1, titulo);
+                archivo1.ignore(); // Limpiar newline
+                getline(archivo1, cuerpo);
+                archivo1.ignore();
+                getline(archivo1,trash);
+                getline(archivo1, autor);
+                archivo1.ignore(); // Limpiar newline
+                
+                if (contnoticia < maxNoticias) {
+                    noticias[contnoticia] = Noticia(titulo, cuerpo, dia, mes, anio, autor);
+                    contnoticia++;
+                    cout << "DEBUG: Noticia asignada al array" << endl;
+                }
+            }
+        }
+    }
+    archivo1.close();
+
+    ifstream archivo2("usuarios.txt");
+    int edad;
+    while (getline(archivo2, nombre)) {
+        archivo2 >> dni;
+        archivo2 >> edad;
+        archivo.ignore();
+        usuarios[contUsuario]= Usuario(nombre,dni,edad);
+        contUsuario++;
+    }
+    archivo2.close();
+
+    ifstream archivo3("comentarios.txt");
+    string texto, usuario;
+    int lineCount = 0,x=0;;
+
+    while (getline(archivo3, titulo)) {
+        getline(archivo3, texto);   // Segunda línea: texto del comentario
+        getline(archivo3, usuario); // Tercera línea: usuario
+        for (int i = 0; i < contnoticia; i++) {
+            if (noticias[i].getTitulo() == titulo) {
+                Comentario c(noticias[i].cantComentarios(), texto, usuario);
+                noticias[i].agregarcomentario(c);
+                break;
+            }
+        }
+        lineCount+=3;
+    }
+    archivo3.close();
 }
 
 void Sistema::registrarAutor(){
     try{
-        if (contAutor <= maxAutores){
+        if (contAutor < maxAutores){
             int dni;
             string nom, med;
 
@@ -255,7 +328,7 @@ void Sistema::registrarAutor(){
 
 void Sistema::registrarUsuario(){
     try{
-        if (contUsuario <= maxUsuarios){
+        if (contUsuario < maxUsuarios){
             int dni, edad;
             string nom;
 
@@ -272,6 +345,7 @@ void Sistema::registrarUsuario(){
             archivo2 << nom <<endl;
             archivo2 << dni <<endl;
             archivo2 << edad <<endl;
+            archivo2 << endl;
             archivo2.close();
             cout << "Se ha registrado correctamente" << endl;
         }else{
@@ -284,34 +358,38 @@ void Sistema::registrarUsuario(){
 
 void Sistema::registrarNoticia(){
     try{
-        if (contAutor > 0 && contnoticia <= maxNoticias){
-            string titulo, detalle, autor;
-            int dia, mes, anio, t = 0;
+        if (contAutor > 0 && contnoticia < maxNoticias){
+            string titulo, detalle, autor, medio;
+            int dia, mes, anio,t=0;
             
             cout<<"----------- Cargue los siguientes datos de la noticia -----------"<<endl;
             cin.ignore();
             cout<<"Titulo: "; getline(cin, titulo);
             cout<<"Detalle de la noticia: "; getline(cin, detalle);
             cout<<"Autor de la noticia: "; getline(cin, autor);
-            cout<<"Fecha (en este formato: dia mes anio): "; cin >> dia >> mes >>anio; // Se pueden cargar de una pq el metodo cin lee las cadenas y para de leer cuando hay un espacios
-            
+            cout<<"Fecha (uno a uno ingrese los valores: dia mes anio): "; cin >> dia >> mes >>anio; // Se pueden cargar de una pq el metodo cin lee las cadenas y para de leer cuando hay espacios
             //Buscar autor
             while (t<contAutor && autor!=autores[t].getNombre()){
                 t++;
             }
             if (t<contAutor){
                 //Crear noticia
-                noticias[contnoticia] = Noticia(titulo, detalle, dia, mes, anio, autor);
+                noticias[contnoticia] = Noticia();
+                noticias[contnoticia].setTitulo(titulo);
+                noticias[contnoticia].setDetalle(detalle);
+                noticias[contnoticia].setDia(dia);
+                noticias[contnoticia].setMes(mes);
+                noticias[contnoticia].setAnio(anio);
+                noticias[contnoticia].setAutor(autor);
                 contnoticia++;
 
                 // Guardar los datos en el archivo noticias.txt
-                ofstream archivo("noticias.txt", ios::app); 
-                archivo << titulo <<endl;
-                archivo << detalle <<endl;
-                archivo << dia <<endl;
-                archivo << mes <<endl;
-                archivo << anio <<endl;
-                archivo << autor <<endl;
+                ofstream archivo("noticias.txt", ios::app);
+                //archivo <<;
+                archivo << dia << "/" << mes<< "/"<< anio <<endl; 
+                archivo <<titulo<<endl<<endl;
+                archivo << detalle <<endl<<endl;
+                archivo << "Redactado por: "<<endl << autor <<endl<<endl;
                 archivo.close();
                 cout << "La noticia se ha resgitrado correctamente." << endl;
             }else{
@@ -340,21 +418,33 @@ void Sistema::registrarComentario(){
             }
 
             if (i < contnoticia){
+                cout<<"DEBUG: noticia encontrada en indice: "<< i << endl;
+
                 cout<<"Nombre de usuario que comenta: "; getline(cin, usuario);            
                 // Buscar usuario
                 while (j < contUsuario && usuarios[j].getNombre()!=usuario){
                     j++;
                 }
 
+                cout << "DEBUG: Usuario encontrado en indice: " << j << endl;
+
                 if (j < contUsuario){
                     cout<<"Comentario a publicar: "; getline(cin, texto);
-                    //Crear comentario y agregarlo a la noticia
-                    Comentario c(i+1, texto, usuario);
-                    noticias[i].agregarcomentario(c);
+                
 
+                    cout << "DEBUG: Creando comentario..." << endl;
+                    
+                    Comentario c(i+1, texto, usuario);
+                    
+                    cout << "DEBUG: Agregando comentario a noticia..." << endl;
+                    
+                    noticias[i].agregarcomentario(c);
+                    
+                    cout << "DEBUG: Comentario agregado exitosamente" << endl;
                     // Guardar los datos en el archivo autores.txt
                     ofstream archivo("comentarios.txt", ios::app); 
                     //archivo << numero <<endl;
+                    archivo << titulo<<endl;
                     archivo << texto <<endl;
                     archivo << usuario <<endl;
                     archivo.close();
@@ -406,9 +496,12 @@ void Sistema::listarnoticiasmes(){
             int mes, anio;
             cout<<"Mes actual: ";
             cin>>mes;
-            while (mes>12 || mes<0){
+            while (mes>12 || mes<1){
                 cout<<"Error, no existe ese mes. Cárguelo de nuevo: ";
                 cin>>mes;
+            }
+            if(mes==1){
+                mes=12;
             }
             cout<<"Anio actual: ";cin>>anio;
             while (anio>2025 || anio<1980){
@@ -478,7 +571,6 @@ void Sistema::listarnoticiaautor(){
 }
 
 Sistema::~Sistema(){
-    //Para borrar el espacios dinámico usado por los arreglos
     delete[] autores;
     delete[] usuarios;
     delete[] noticias;

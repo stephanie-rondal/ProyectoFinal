@@ -2,7 +2,7 @@
 #include <string>
 #include <fstream>
 
-// Implementación de Persona
+// -----------Definición de Persona
 Persona::Persona(){
     dni=0;
     nombre="";
@@ -29,7 +29,8 @@ int Persona::getDni(){
 Persona::~Persona(){}
 
 
-// Implementación de Comentario
+
+// ----------- Definición de Comentario
 Comentario::Comentario(){
     numero=0;
     texto="";
@@ -64,7 +65,8 @@ void Comentario::mostrar() {
 Comentario::~Comentario(){}
 
 
-// Implementación de Medio
+
+// ----------- Definición de Medio
 Medio::Medio(){
     nombremedio="";
 }
@@ -80,7 +82,8 @@ string Medio::getNombre(){
 Medio::~Medio(){}
 
 
-// Implementación de Autor
+
+// ----------- Definición de Autor
 Autor::Autor() : Persona(), medio(""){ 
 }
 Autor::Autor(string n, int doc, string m):Persona(n, doc), medio(m){; 
@@ -89,7 +92,7 @@ Autor::~Autor(){}
 
 
 
-// Implementación de Noticia
+// ----------- Definición de Noticia
 Noticia::Noticia(){
     titulo="";
     detalle="";
@@ -98,7 +101,20 @@ Noticia::Noticia(){
     anio=0;
     autor="";
     maxComentarios = 20;  
-    comentarios = new Comentario[maxComentarios]; 
+    comentarios = new Comentario[maxComentarios];
+    
+    ifstream archivo4("comentarios.txt");
+    string texto, usuario;
+    int numero;
+    /*while (getline(archivo4, titulo)) {
+        getline(archivo4, texto);
+        archivo4 >> numero;
+        archivo4.ignore(); 
+        getline(archivo4, usuario);
+        comentarios[maxComentarios] = Comentario(numero, texto, usuario);
+        cantcomentario++;
+    }
+    archivo4.close();*/
 }
 
 Noticia::Noticia(string _titulo,string _detalle,int _dia,int _mes,int _anio,string _autor){
@@ -108,7 +124,6 @@ Noticia::Noticia(string _titulo,string _detalle,int _dia,int _mes,int _anio,stri
     mes=_mes;
     anio=_anio;
     autor=_autor;
-    //cantcomentario=0;
     maxComentarios = 20; 
     comentarios = new Comentario[maxComentarios];
 }
@@ -186,17 +201,25 @@ Noticia::~Noticia(){
 }
 
 
-// Implementación de Usuario
+
+// ----------- Definición de Usuario
 Usuario::Usuario():Persona(){
     edad=0;
 }
 Usuario::Usuario(string _nombre, int _dni, int _edad):Persona(_nombre,_dni){
     edad=_edad;
 }
+void Usuario::setEdad(int e){
+    edad = e;
+}
+int Usuario::getEdad(){
+    return edad;
+}
 Usuario::~Usuario(){}
 
 
-// Implementación de Sistema
+
+// ----------- Definición de Sistema
 Sistema::Sistema(){
     contAutor = contUsuario = contnoticia = 0;
     maxAutores = maxUsuarios= maxNoticias = 20; 
@@ -272,7 +295,7 @@ void Sistema::registrarAutor(){
             archivo << med <<endl;
             archivo.close();
             
-            cout << "Se ha registrado correctamente" << endl;
+            cout << "El autor se ha registrado correctamente." << endl;
         }else{
             cout<<"La cantidad de AUTORES está llena. No se cargará su usuario.";
         }
@@ -301,7 +324,7 @@ void Sistema::registrarUsuario(){
             archivo2 << dni <<endl;
             archivo2 << edad <<endl;
             archivo2.close();
-            cout << "Se ha registrado correctamente" << endl;
+            cout << "El usuario se ha registrado correctamente. " << endl;
         }else{
             cout<<"La cantidad de USUARIOS está llena. No se cargará su usuario.";
         }
@@ -381,11 +404,11 @@ void Sistema::registrarComentario(){
                     noticias[i].agregarcomentario(c);
 
                     // Guardar los datos en el archivo autores.txt
-                    ofstream archivo("comentarios.txt", ios::app); 
+                    ofstream archivo4("comentarios.txt", ios::app); 
                     //archivo << numero <<endl;
-                    archivo << texto <<endl;
-                    archivo << usuario <<endl;
-                    archivo.close();
+                    archivo4 << texto <<endl;
+                    archivo4 << usuario <<endl;
+                    archivo4.close();
 
                     cout << "El comentario se ha publicado corectamente."<<endl;
                 }else{

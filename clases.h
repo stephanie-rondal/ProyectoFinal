@@ -61,8 +61,8 @@ class Noticia{
     private:
         string titulo, detalle, autor;
         int dia, mes, anio, cantcomentario=0;
-        int maxComentarios;   // Capacidad máxima de comentarios para poder crear el arreglo dinámico de comentarios
-        Comentario *comentarios;    // Declaré la composición por referencia (puntero)
+        int maxComentarios;   
+        Comentario *comentarios;   
     public:
         Noticia();
         Noticia(string,string,int,int,int,string);
@@ -89,7 +89,9 @@ class Usuario : public Persona{
     public:
         Usuario();
         Usuario(string,int,int);
-        void agregarcomentario();
+        void setEdad(int);
+        int getEdad();
+        //void agregarcomentario();
         ~Usuario();
 };
 
@@ -99,7 +101,7 @@ class Sistema{
         Autor *autores;
         Usuario *usuarios;
         Noticia *noticias;
-        int maxAutores, maxUsuarios, maxNoticias; // Capacidad maxima para poder crear los arreglos dinámicos
+        int maxAutores, maxUsuarios, maxNoticias; 
         int contAutor=0, contUsuario=0, contnoticia=0;
     public:
         Sistema();

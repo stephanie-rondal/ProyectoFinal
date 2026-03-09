@@ -102,9 +102,6 @@ Noticia::Noticia(){
         //Redefiní los contructores creando un arreglo dinámico
     maxComentarios = 20;  //Valor que podemos cambiar
     comentarios = new Comentario[maxComentarios]; // La capacidad máxima nos sirve para el manejo de excepciones
-    for(int i = 0; i < maxComentarios; i++) {
-        comentarios[i] = Comentario();
-    }
 }
 
 Noticia::Noticia(string _titulo,string _detalle,int _dia,int _mes,int _anio,string _autor){
@@ -434,7 +431,7 @@ void Sistema::registrarComentario(){
 
                     cout << "DEBUG: Creando comentario..." << endl;
                     
-                    Comentario c(i+1, texto, usuario);
+                    Comentario c(noticias[i].cantComentarios(), texto, usuario);
                     
                     cout << "DEBUG: Agregando comentario a noticia..." << endl;
                     
